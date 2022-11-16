@@ -1,0 +1,168 @@
+@keyframes player_idle_left {
+  from {
+    left: 0;
+  }
+
+  to {
+    left: 15px;
+  }
+}
+
+@keyframes player_idle_top {
+  from {
+    top: 0;
+  }
+
+  to {
+    top: 15px;
+  }
+}
+
+@keyframes player_shooting {
+  0% {
+    background-image: var(--shoot1);
+  }
+
+  20% {
+    background-image: var(--shoot2);
+  }
+
+  40% {
+    background-image: var(--shoot3);
+  }
+
+  60% {
+    background-image: var(--shoot4);
+  }
+
+  80% {
+    background-image: var(--shoot5);
+  }
+
+  100% {
+    background-image: var(--fly2);
+  }
+}
+
+@keyframes player_dead {
+  from {
+    transform: translateX(0px) translateY(0px) rotate(0deg);
+  }
+
+  to {
+    transform: translateX(150px) translateY(1000px) rotate(180deg);
+  }
+}
+
+@keyframes player_hit1 {
+  from {
+    opacity: 0.55;
+  }
+
+  to {
+    opacity: 0.25;
+  }
+}
+
+@keyframes player_hit2 {
+  from {
+    opacity: 0.55;
+  }
+
+  to {
+    opacity: 0.25;
+  }
+}
+
+@keyframes player_hit0 {
+  from {
+    opacity: 0.55;
+  }
+
+  to {
+    opacity: 0.25;
+  }
+}
+
+.Shooter {
+  display: flex;
+  flex-direction: column;
+}
+
+.FlyingStuff {
+  display: flex;
+  flex:1;
+}
+
+.Question {
+  font-size: 2.5rem;
+  line-height: 1;
+  display: inline-block;
+  background: #1075b5bf;
+  border: 4px solid #0969a5;
+  align-self: center;
+  padding: 4px 12px;
+  scale: 0;
+  transition: all 400ms 100ms;
+  font-weight: bold;
+  font-style: italic;
+  transform: skew(4deg, 4deg) translateY(12vh);
+  user-select: none;
+}
+
+.Question[data-hascalcul="true"] {
+  scale:1;
+}
+
+.Bomb.booming + .Question {
+  opacity:0;
+  transform: scale(0);
+  transition: all var(--boom-duration) ;
+}
+
+.PlayerAndAmmoContainer {
+  display: flex;
+  align-items: center;
+}
+
+.PlayerContainer {
+  animation: player_idle_left 850ms alternate ease-in-out infinite,
+    player_idle_top 1450ms alternate ease-in-out infinite;
+  position: relative;
+  display: inline-block;
+}
+
+.Player {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 200px;
+  aspect-ratio: 1;
+  max-width: min(30vw,50vh);
+  position: relative;
+}
+
+.Player.idle {
+  background-image: var(--fly2);
+}
+
+.Player.shooting {
+  animation: player_shooting 850ms forwards linear;
+}
+
+.Player.dead {
+  background-image: var(--dead);
+  animation: player_dead 2000ms ease-in forwards;
+}
+
+.life_2 {
+  animation: player_hit2 200ms linear 0s 6 alternate;
+}
+
+.life_1 {
+  animation: player_hit1 200ms linear 0s 6 alternate;
+}
+
+.life_0 {
+  animation: player_hit0 200ms linear 0s 4 alternate;
+}

@@ -1,0 +1,60 @@
+@keyframes bg_anim {
+  from {
+    background-position-x: 0px;
+  }
+  to {
+    background-position-x: min(-1920 / 1080 * 100vh, -100vw);
+  }
+}
+
+.Parallax,
+.Parallax>div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  animation-name: bg_anim;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.Parallax:after {
+  content:'';
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  height:60px;
+  background:linear-gradient(to bottom, rgba(0,0,0,0.24) 0%, rgba(0,0,0,0) 100%);
+}
+
+.Parallax:not(.running)>div {
+    animation-play-state: paused;
+}
+
+.Clouds1 {
+  animation-duration: 24000ms;
+}
+
+.Clouds2 {
+  animation-duration: 22000ms;
+}
+
+.Rocks1 {
+  animation-duration: 18000ms;
+}
+
+.Clouds3 {
+  animation-duration: 16000ms;
+}
+
+.Rocks2 {
+  animation-duration: 12000ms;
+}
+
+.Clouds4 {
+  animation-duration: 8000ms;
+}

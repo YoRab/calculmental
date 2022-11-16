@@ -1,0 +1,81 @@
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.25);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes heart_lost {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(2.5);
+        opacity: 0%
+    }
+}
+
+.Infos {
+    display: flex;
+    align-items: center;
+
+}
+
+.Hearts {
+    display: flex;
+    gap: 6px;
+    padding: 4px;
+    border: 2px solid #0969a547;
+    border-radius: 12px;
+    margin: 2px;
+    align-self: stretch;
+    position: absolute;
+    bottom: 0;
+    top: 0;
+}
+
+.Hearts>svg {
+    position: relative;
+    fill: red;
+    aspect-ratio: 1;
+    height: 100%;
+}
+
+.heart_only {
+    animation: pulse 1.5s ease infinite;
+}
+
+.heart_empty {
+    animation: heart_lost 1s ease forwards;
+}
+
+.Score {
+    font-size: 1.25em;
+    line-height: 1;
+    font-weight: bold;
+    background: #1199ee;
+    border-radius: 16%;
+    padding: 4px 8px;
+    margin-top: 4px;
+    margin-left: 4px;
+    position: absolute;
+    top: 40px;
+    user-select: none;
+}
+
+.Chrono {
+    font-weight: bold;
+    font-size: 2em;
+    text-shadow: 1px 1px 1px black;
+    flex:1;
+    text-align:center;
+    user-select: none;
+}

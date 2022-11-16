@@ -1,0 +1,122 @@
+   @keyframes bomb_resting {
+    0% {
+      background-image:var(--fly1);
+    }
+    10% {
+      background-image: var(--fly2);
+    }
+    20% {
+      background-image: var(--fly3);
+    }
+    30% {
+      background-image:var(--fly4);
+    }
+    40% {
+      background-image: var(--fly5);
+    }
+    50% {
+      background-image:var(--fly6);
+    }
+    60% {
+      background-image:var(--fly7);
+    }
+    70% {
+      background-image: var(--fly8);
+    }
+    80% {
+      background-image: var(--fly9);
+    }
+    90% {
+      background-image: var(--fly10);
+    }
+  }
+
+  @keyframes bomb_boom {
+    0% {
+      background-image:var(--boom1);
+      opacity:1;
+    }
+    10% {
+      background-image:var(--boom2);
+    }
+    20% {
+      background-image: var(--boom3);
+    }
+    30% {
+      background-image: var(--boom4);
+    }
+    40% {
+      background-image:var(--boom5);
+    }
+    50% {
+      background-image:var(--boom6);
+    }
+    60% {
+      background-image: var(--boom7);
+    }
+    70% {
+      background-image: var(--boom8);
+    }
+    80% {
+      background-image:var(--boom9);
+      opacity:1;
+    }
+    100% {
+      opacity:0;
+    }
+  }
+
+
+  @keyframes bomb_moving {
+    from {
+      left: 100%;
+    }
+    to {
+      left:0%;
+    }
+  }
+
+  .BombContainer {
+    position: absolute;
+    text-align:center;
+    top: 50%;
+    left: calc(100%);
+    transform: translate(-100%, -50%);
+    transform-origin: center;
+    scale: 0;
+    transition: scale 400ms;
+  }
+
+  .BombContainer.attacking {
+    animation: bomb_moving linear forwards;
+  }
+
+  .BombContainer.shown {
+    scale: 1;
+  }
+  
+  .Bomb {
+    background-repeat: no-repeat;
+    width: 200px;
+    max-width: min(30vw,50vh);
+    aspect-ratio: 1;
+  }
+
+  .Bomb.booming {
+    background-image:var(--boom1);
+    animation: bomb_boom var(--boom-duration) forwards;
+    background-size: 100%;
+    background-position: center;
+  }
+
+  .Bomb.resting {
+    background-size: 64%;
+    background-position: 76% center;
+    background-image:var(--fly1);
+    animation: bomb_resting 600ms infinite;
+  }
+
+  .Bombs {
+    flex: 1;
+    position: relative;
+  }

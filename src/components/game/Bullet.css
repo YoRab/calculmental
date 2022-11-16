@@ -1,0 +1,39 @@
+@keyframes bullet_image {
+  0% {
+    background-image:var(--bullet1);
+  }
+  20% {
+    background-image: var(--bullet2);
+  }
+  40% {
+    background-image:var(--bullet3);
+  }
+  60% {
+    background-image:var(--bullet4);
+  }
+  80% {
+    background-image:var(--bullet5);
+  }
+}
+
+@keyframes bullet_move {
+  from {
+    left:min(150px, 20vw);
+  }
+  to {
+    left: calc(100% - min(100px, 10vw));
+  }
+}
+
+.Bullet {
+  position: absolute;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  left:min(150px, 20vw);
+  width: 60px;
+  aspect-ratio: 1;
+  max-width: 10vw;
+  background-image: var(--bullet1);
+  animation: bullet_image 600ms infinite, bullet_move linear var(--bullet-move-duration);
+}
