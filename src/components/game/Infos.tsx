@@ -1,4 +1,5 @@
 import React from 'react'
+import Chrono from './Chrono'
 import './Infos.css'
 
 
@@ -12,9 +13,10 @@ const Heart = (props: any) => {
 type InfosType = {
     score: number
     playerLife: number
+    chrono: number
 }
 
-const Infos = ({ score, playerLife }: InfosType) => {
+const Infos = ({ score, playerLife, chrono }: InfosType) => {
 
     return (
         <div className="Infos">
@@ -24,9 +26,7 @@ const Infos = ({ score, playerLife }: InfosType) => {
                 <Heart className={playerLife > 2 ? 'heart_full' : 'heart_empty'} />
             </div>
             <div className='Score'>{score}pts</div>
-            <div className='Chrono'>
-                00:00
-            </div>
+            <Chrono chrono={chrono} />
         </div>
     )
 }

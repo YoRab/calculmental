@@ -18,6 +18,15 @@ const Student = ({ socketProps }: StudentType) => {
 
     const [player, setPlayer] = useState<Player | undefined>(undefined)
     const [gameStatus, setGameStatus] = useState<GameState>('ready')
+    const [qcm, setQcm] = useState<{
+        question: string;
+        answers: {
+            id: number;
+            value: string;
+            correct: boolean;
+        }[];
+    } | undefined>(undefined)
+    const [chrono, setChrono] = useState(30000)
 
     useEffect(() => {
         const { isConnected, addListener, removeListener, sendMessage } = socketProps
@@ -35,8 +44,20 @@ const Student = ({ socketProps }: StudentType) => {
             setGameStatus('ready')
         })
 
-        addListener("gameStatusUpdated", (gameStatus: GameState) => {
+        addListener("gameStatusUpdated", (gameStatus: GameState, chrono?: number) => {
             setGameStatus(gameStatus)
+            if (chrono) setChrono(chrono)
+        })
+
+        addListener("newQcm", (qcm: {
+            question: string;
+            answers: {
+                id: number;
+                value: string;
+                correct: boolean;
+            }[];
+        }) => {
+            setQcm(qcm)
         })
 
         return () => {
@@ -46,9 +67,9 @@ const Student = ({ socketProps }: StudentType) => {
             removeListener("gameStatusUpdated")
         }
     }, [socketProps])
-    // <Game />
+
     return player ? (gameStatus === "ready" ? <LobbyPlayer socketProps={socketProps} player={player} /> : gameStatus === "starting" ?
-        (<CountDownPlayer player={player} socketProps={socketProps} />) : <Game />
+        (<CountDownPlayer player={player} socketProps={socketProps} />) : <Game code={code} qcm={qcm} chrono={chrono} socketProps={socketProps} />
     ) : code ? <FormPseudo socketProps={socketProps} code={code} /> : (
         <div className='NoCode'>
             <Parallax running={false} />

@@ -42,3 +42,28 @@
     grid-column-end: 2;
   }
 }
+
+@keyframes modal_open {
+  from {
+    opacity:0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ModalLost {
+  position: fixed !important;
+  opacity:0;
+  left:1em;
+  right:1em;
+  bottom:1em;
+  top:40px;
+  border-radius: 12px;
+  border:2px solid rgba(0, 0, 0);
+  background: rgba(0, 0, 0, 0.9);
+  text-align: center;
+  animation: modal_open 1000ms 2000ms forwards;
+}

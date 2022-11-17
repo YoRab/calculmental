@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { BOMB_MOVING_DURATION, BULLET_MOVING_DURATION, EXPLOSION_DURATION } from '../../constants'
-import { createCalcul, shuffle } from '../../utils'
+import { SocketPropsType } from '../../hooks/useSocket'
 import { BombType } from './Bomb'
 import './Game.css'
 import Infos from './Infos'
@@ -10,7 +10,21 @@ import Shooter from './Shooter'
 
 type PlayerState = 'idle' | 'shooting' | 'dead'
 
-const Game = () => {
+type GameType = {
+    qcm: {
+        question: string;
+        answers: {
+            id: number;
+            value: string;
+            correct: boolean;
+        }[];
+    } | undefined
+    chrono: number
+    socketProps: SocketPropsType
+    code: string | null
+}
+
+const Game = ({ code, qcm, chrono, socketProps }: GameType) => {
     const [playerState, setPlayerState] = useState<PlayerState>('idle')
     const [playerLife, setPlayerLife] = useState(3)
     const [score, setScore] = useState(0)
@@ -25,6 +39,7 @@ const Game = () => {
             setPlayerState('idle')
             setTimeout(() => {
                 setBombData(undefined)
+                socketProps.sendMessage("askForQcm", 0)
             }, EXPLOSION_DURATION)
         }, BULLET_MOVING_DURATION)
     }
@@ -35,6 +50,8 @@ const Game = () => {
             setPlayerLife(prev => prev - 1)
             setTimeout(() => {
                 setBombData(undefined)
+                if (playerLife > 0)
+                    socketProps.sendMessage("askForQcm", 0)
             }, EXPLOSION_DURATION)
         }, BOMB_MOVING_DURATION)
     }
@@ -47,29 +64,42 @@ const Game = () => {
         }
     }
 
-    const createBomb = () => {
-        const { calcul, result } = createCalcul()
-        setBombData({ calcul, bomb: 'resting' })
-        setAnswers(shuffle([
-            { id: 0, value: `${result}`, correct: true },
-            { id: 1, value: `${Math.floor(Math.random() * 200 - 100)}`, correct: false },
-            { id: 2, value: `${Math.floor(Math.random() * 200 - 100)}`, correct: false },
-            { id: 3, value: `${Math.floor(Math.random() * 200 - 100)}`, correct: false },
-        ]))
-    }
+    useEffect(() => {
+        if (qcm === undefined) {
+            socketProps.sendMessage("askForQcm", 0)
+            return
+        }
+        setBombData({ calcul: qcm.question, bomb: 'resting' })
+        setAnswers(qcm.answers)
+    }, [qcm])
+
     useEffect(() => {
         if (playerLife <= 0) {
             setPlayerState('dead')
         }
     }, [playerLife])
 
+    useEffect(() => {
+        socketProps.sendMessage("updatePlayerStatus", code, playerLife, score)
+    }, [score, playerLife, code])
+
     return (
         <div className="Game">
-            <button onClick={createBomb} style={{ position: 'absolute', 'top': 0, 'left': '50%', zIndex: '9' }}>Start !</button>
             <Parallax running={playerLife > 0} />
-            <Infos score={score} playerLife={playerLife} />
+            <Infos score={score} playerLife={playerLife} chrono={chrono} />
             <Shooter playerState={playerState} playerLife={playerLife} bomb={bombData?.bomb} calcul={bombData?.calcul} />
             <Qcm answers={answers} onAnswered={onAnswered} />
+            {playerLife === 0 && (
+                <div className='ModalLost'>
+                    <div>Tu y étais presque !</div>
+                    <div>Score personnel : {score}pts</div>
+                    <div>Les résultats finaux arrivent à la fin du décompte</div>
+                    <div>
+                        <h3>Astuce !</h3>
+                        <p>bla bla bla</p>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

@@ -5,16 +5,14 @@ const HOST = ":4001";
 
 export type SocketPropsType = {
   isConnected: boolean, addListener: (event: string, cb: any) => void, removeListener: (event: string) => void,
-  sendMessage :(message: string, ...props: any) => void
+  sendMessage: (message: string, ...props: any) => void
 }
 
-export const useSocket = () : SocketPropsType => {
+export const useSocket = (): SocketPropsType => {
   const socketRef = useRef<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
 
-  const sendMessage = (message: string, ...props : any) => {
-    console.log(socketRef.current)
-    console.log(isConnected)
+  const sendMessage = (message: string, ...props: any) => {
     if (socketRef.current === null || !isConnected) return;
     socketRef.current.emit(message, ...props)
   }
