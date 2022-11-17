@@ -1,0 +1,33 @@
+
+
+.FormPseudo, .FormPseudoContent {
+    width: 100%;
+    height:100%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.FormPseudo form {
+}
+
+.AppName {
+    font-size: 3em;
+    margin: 1em;
+}
+
+.Slogan {
+    font-size: 2em;
+    margin: 1em;
+}
+
+.FormPseudo form {
+  
+}
+
+.FormPseudo label, .FormPseudo input {
+    display:block;
+} 
+

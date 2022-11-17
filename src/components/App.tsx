@@ -1,17 +1,19 @@
 import React from 'react'
 import { useSocket } from '../hooks/useSocket';
 import './App.css'
-import Game from './game/Game'
-
-const HOST = "http://127.0.0.1:4001";
+import Student from './student/Student';
+import Teacher from './teacher/Teacher';
 
 const App = () => {
 
-  const { isConnected, addListener, removeListener, sendMessage } = useSocket(HOST);
+  const pathname = window.location.pathname
+const isTeacher = pathname.includes('teacher')
+
+  const socketProps = useSocket();
 
   return (
     <div className="App">
-      <Game />
+      {isTeacher ? (<Teacher socketProps={socketProps} />) : (<Student socketProps={socketProps} />)}
     </div>
   )
 }

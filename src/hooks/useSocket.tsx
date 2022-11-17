@@ -1,13 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
-export const useSocket = (host: string) => {
+const HOST = ":4001";
+
+export type SocketPropsType = {
+  isConnected: boolean, addListener: (event: string, cb: any) => void, removeListener: (event: string) => void,
+  sendMessage :(message: string, ...props: any) => void
+}
+
+export const useSocket = () : SocketPropsType => {
   const socketRef = useRef<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
 
-  const sendMessage = (message: string) => {
+  const sendMessage = (message: string, ...props : any) => {
+    console.log(socketRef.current)
+    console.log(isConnected)
     if (socketRef.current === null || !isConnected) return;
-    socketRef.current.emit(message)
+    socketRef.current.emit(message, ...props)
   }
 
   const addListener = (event: string, cb: () => void) => {
@@ -21,12 +30,11 @@ export const useSocket = (host: string) => {
   }
 
   useEffect(() => {
-    const socket: Socket<{}, {}> = io(host);
+    const socket: Socket<{}, {}> = io(HOST);
     socketRef.current = socket;
-
     socket.on("connect", () => {
-      setIsConnected(true);
       console.log("connected");
+      setIsConnected(true);
     });
 
     socket.on("disconnect", () => {
@@ -38,7 +46,7 @@ export const useSocket = (host: string) => {
       socket.off("connect");
       socket.off("disconnect");
     };
-  }, [host]);
+  }, []);
 
-  return { isConnected, addListener, removeListener, sendMessage }
+  return useMemo(() => ({ isConnected, addListener, removeListener, sendMessage }), [isConnected])
 }
