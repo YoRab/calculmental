@@ -69,7 +69,7 @@ const Student = ({ socketProps }: StudentType) => {
     }, [socketProps])
 
     return player ? (gameStatus === "ready" ? <LobbyPlayer socketProps={socketProps} player={player} /> : gameStatus === "starting" ?
-        (<CountDownPlayer player={player} socketProps={socketProps} />) : <Game code={code} qcm={qcm} chrono={chrono} socketProps={socketProps} />
+        (<CountDownPlayer player={player} socketProps={socketProps} />) : <Game code={code} qcm={qcm} chrono={chrono} socketProps={socketProps} team={player.team.id}/>
     ) : code ? <FormPseudo socketProps={socketProps} code={code} /> : (
         <div className='NoCode'>
             <Parallax running={false} />

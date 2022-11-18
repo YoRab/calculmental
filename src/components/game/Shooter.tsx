@@ -13,27 +13,37 @@ import shoot4 from '../../assets/plane/shoot4.png'
 import shoot5 from '../../assets/plane/shoot5.png'
 
 
+import reddead from '../../assets/redplane/dead.png'
+import redfly1 from '../../assets/redplane/fly1.png'
+import redfly2 from '../../assets/redplane/fly2.png'
+import redshoot1 from '../../assets/redplane/shoot1.png'
+import redshoot2 from '../../assets/redplane/shoot2.png'
+import redshoot3 from '../../assets/redplane/shoot3.png'
+import redshoot4 from '../../assets/redplane/shoot4.png'
+import redshoot5 from '../../assets/redplane/shoot5.png'
+
 type ShooterType = {
     playerState: 'idle' | 'shooting' | 'dead'
     playerLife: number
     bomb: BombType | undefined
     calcul: string | undefined
+    team: number
 }
-const Shooter = ({ playerState, playerLife, bomb, calcul }: ShooterType) => {
+const Shooter = ({ playerState, playerLife, bomb, calcul, team }: ShooterType) => {
     const playerClassName = `Player ${playerState}`
     const playerAndAmmoClassName = `PlayerAndAmmoContainer life_${playerLife}`
     const lastCalcul = useRef(calcul)
     if (calcul) lastCalcul.current = calcul
     return (
         <div className="Shooter" style={{
-            '--dead': `url(${dead})`,
-            '--fly1': `url(${fly1})`,
-            '--fly2': `url(${fly2})`,
-            '--shoot1': `url(${shoot1})`,
-            '--shoot2': `url(${shoot2})`,
-            '--shoot3': `url(${shoot3})`,
-            '--shoot4': `url(${shoot4})`,
-            '--shoot5': `url(${shoot5})`,
+            '--dead': `url(${team === 0 ? dead : reddead})`,
+            '--fly1': `url(${team === 0 ? fly1 : redfly1})`,
+            '--fly2': `url(${team === 0 ? fly2 : redfly2})`,
+            '--shoot1': `url(${team === 0 ? shoot1 : redshoot1})`,
+            '--shoot2': `url(${team === 0 ? shoot2 : redshoot2})`,
+            '--shoot3': `url(${team === 0 ? shoot3 : redshoot3})`,
+            '--shoot4': `url(${team === 0 ? shoot4 : redshoot4})`,
+            '--shoot5': `url(${team === 0 ? shoot5 : redshoot5})`,
         } as React.CSSProperties}>
             <div className={`Question`} data-hascalcul={!!lastCalcul.current}>{lastCalcul.current ?? '??'}</div>
             <div className='FlyingStuff'>

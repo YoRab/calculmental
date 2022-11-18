@@ -22,9 +22,10 @@ type GameType = {
     chrono: number
     socketProps: SocketPropsType
     code: string | null
+    team: number
 }
 
-const Game = ({ code, qcm, chrono, socketProps }: GameType) => {
+const Game = ({ code, qcm, chrono, socketProps, team }: GameType) => {
     const [playerState, setPlayerState] = useState<PlayerState>('idle')
     const [playerLife, setPlayerLife] = useState(3)
     const [score, setScore] = useState(0)
@@ -87,7 +88,7 @@ const Game = ({ code, qcm, chrono, socketProps }: GameType) => {
         <div className="Game">
             <Parallax running={playerLife > 0} />
             <Infos score={score} playerLife={playerLife} chrono={chrono} />
-            <Shooter playerState={playerState} playerLife={playerLife} bomb={bombData?.bomb} calcul={bombData?.calcul} />
+            <Shooter playerState={playerState} playerLife={playerLife} bomb={bombData?.bomb} calcul={bombData?.calcul} team={team} />
             <Qcm answers={answers} onAnswered={onAnswered} />
             {playerLife === 0 && (
                 <div className='ModalLost'>
