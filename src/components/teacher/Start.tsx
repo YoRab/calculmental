@@ -6,15 +6,18 @@ type StartType = {
 
 const Start = ({ socketProps }: StartType) => {
 
-    const createGame = () => {
-        socketProps.sendMessage("createGame")
-      }
+  const createGame = () => {
+    socketProps.sendMessage("createGame")
+  }
 
   return (
     <div className="Start">
-       <button onClick={createGame}>Start</button>
+      <div className='AppName'>CalculFight</div>
+      <button onClick={createGame}>Créer une session</button>
     </div>
   )
 }
 
 export default Start
+
+

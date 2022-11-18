@@ -15,7 +15,7 @@ const Teacher = ({ socketProps }: TeacherType) => {
   const [players, setPlayers] = useState<Player[]>([])
   const [gameStatus, setGameStatus] = useState<GameState>('ready')
   const [teamScore, setTeamScore] = useState<[number, number]>([0, 0])
-  const [chrono, setChrono] = useState(30000)
+  const [chrono, setChrono] = useState(45000)
 
   useEffect(() => {
     const { isConnected, addListener, removeListener, sendMessage } = socketProps

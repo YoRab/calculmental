@@ -10,24 +10,68 @@
     position: relative;
 }
 
-.FormPseudo form {
-}
 
-.AppName {
+.FormPseudo .AppName {
     font-size: 3em;
-    margin: 1em;
+    margin-bottom: 12vh;
 }
 
 .Slogan {
     font-size: 2em;
     margin: 1em;
+    line-height:1;
+    text-shadow: 1px 1px 4px #ffffff;
+
+    text-align: center;
 }
 
 .FormPseudo form {
-  
+    border: 1px solid  rgba(0, 0, 0, 0.671);
+    background: #ffffff80;
+    border-radius: 12px;
+    padding:16px;
 }
 
 .FormPseudo label, .FormPseudo input {
     display:block;
+    font-size:1.25em;
+    margin: 12px 0px;
 } 
 
+.FormPseudo input[type='text'] {
+line-height: 2;
+background:white;
+color:black;
+}
+
+.FormPseudo input[type='submit'] {
+    font-size:1.5em;
+    border-radius:12px;
+    padding:12px;
+    cursor: pointer;
+    background:rgb(226, 226, 226);
+    margin: auto;
+}
+
+.FormPseudo input[type='submit']:hover {
+    background:rgb(255, 255, 255);
+}
+
+
+@media screen and (orientation: portrait) {
+    .FormPseudoContent {
+        flex-direction: column;
+    }
+  }
+
+
+  @media screen and (orientation: landscape) {
+    .FormPseudoContent {
+        flex-direction: row;
+    }
+
+    .FormPseudo .AppName {
+    position: absolute;
+    top: 42px;
+    }
+  }

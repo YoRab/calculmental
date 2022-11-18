@@ -9,3 +9,71 @@
     justify-content: center;
     position: relative;
 }
+
+@keyframes Countdown_anim {
+    from {
+        transform:scale(0);
+    }
+    to {
+        transform:scale(1);
+    }
+  }
+
+
+.Timer >div {
+    display:none;
+    transform:scale(0);
+    transform-origin: center;
+    background: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+}
+
+.Timer.TimerState0 .timer1 {
+    animation: Countdown_anim 800ms forwards;
+    display:flex;
+    width: auto;
+    padding:8px;
+}
+
+
+.Timer.TimerState1 .timer2 {
+    animation: Countdown_anim 800ms forwards;
+    display:flex;
+}
+
+
+.Timer.TimerState2 .timer3 {
+    animation: Countdown_anim 800ms forwards;
+    display:flex;
+}
+
+
+.Timer.TimerState3 .timer4 {
+    animation: Countdown_anim 800ms forwards;
+    display:flex;
+}
+
+
+.Timer.TimerState4 .timer5 {
+    animation: Countdown_anim 800ms forwards;
+    display:flex;
+}
+
+
+.Timer.TimerState5 .timer6 {
+    animation: Countdown_anim 800ms forwards;
+    display:flex;
+
+}
+
+.TimerContent>div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;;
+}

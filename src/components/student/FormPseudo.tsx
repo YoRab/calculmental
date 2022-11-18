@@ -20,7 +20,7 @@ const FormPseudo = ({ socketProps, code }: FormPseudoType) => {
     return <div className='FormPseudo'>
         <Parallax running={false} />
         <div className='FormPseudoContent'>
-            <div className='AppName'>NOM APP</div>
+            <div className='AppName'>CalculFight</div>
             <div className='Slogan'>Prêt à rejoindre l'aventure ?</div>
             <form onSubmit={sendPseudo}>
                 <label htmlFor="pseudo">Entrez votre pseudo</label>

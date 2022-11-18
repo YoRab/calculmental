@@ -43,27 +43,29 @@ const CountDownPlayer = ({ socketProps, player }: CountDownPlayerType) => {
     }, [])
     
     return <div className='LobbyPlayer' style={{
-        '--fly2': `url(${player.team.id===0 ? fly2 : redfly})`,
+        '--fly2': `url(${player?.team.id===0 ? fly2 : redfly})`,
       } as React.CSSProperties}>
         <Parallax running={false} />
-        <div className='LobbyPlayerContent'>
-            <div>Mission :  NOM LECON
+        <div className='LobbyPlayerContent TimerContent'>
+            <div>
+        <div>Mission :</div>
+            <div><strong>Nombres relatifs</strong></div>
             </div>
             <div>
                   <div className='PlayerContainer'>
                     <div className={`Player idle`} />
                   </div>
-                  <div>{player.pseudo}</div>
+                  <div>{player?.pseudo}</div>
 
                 </div>
 
-                <div className={`timer timer${timerState}`}>
+                <div className={`Timer TimerState${timerState}`}>
                     <div className='timer1'>Attention au décollage</div>
                     <div className='timer2'>5</div>
                     <div className='timer3'>4</div>
                     <div className='timer4'>3</div>
                     <div className='timer5'>2</div>
-                    <div className='timer+'>1</div>
+                    <div className='timer6'>1</div>
                 </div>
         </div>
     </div>

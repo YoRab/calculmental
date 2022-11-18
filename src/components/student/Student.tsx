@@ -7,6 +7,7 @@ import Parallax from '../game/Parallax'
 import Game from '../game/Game'
 import LobbyPlayer from './LobbyPlayer'
 import CountDownPlayer from './CountDownPlayer'
+import Results from './Results'
 
 
 type StudentType = {
@@ -26,7 +27,8 @@ const Student = ({ socketProps }: StudentType) => {
             correct: boolean;
         }[];
     } | undefined>(undefined)
-    const [chrono, setChrono] = useState(30000)
+    const [chrono, setChrono] = useState(45000)
+    const [results, setResults] = useState<{rank: number, score: number, team0: number, team1: number}|undefined>(undefined)
 
     useEffect(() => {
         const { isConnected, addListener, removeListener, sendMessage } = socketProps
@@ -49,6 +51,12 @@ const Student = ({ socketProps }: StudentType) => {
             if (chrono) setChrono(chrono)
         })
 
+
+        addListener("resultSent", (rank: number, score: number, team0: number, team1: number) => {
+            setResults({rank, score, team0, team1})
+        })
+        
+
         addListener("newQcm", (qcm: {
             question: string;
             answers: {
@@ -65,11 +73,13 @@ const Student = ({ socketProps }: StudentType) => {
             removeListener("gameDestroyed")
             removeListener("playerCreated")
             removeListener("gameStatusUpdated")
+            removeListener("resultSent")
         }
     }, [socketProps])
-
+    // return <LobbyPlayer socketProps={socketProps} player={{team:{ id:'0', label: 'vert'}}} />
+// return <CountDownPlayer player={player} socketProps={socketProps} />
     return player ? (gameStatus === "ready" ? <LobbyPlayer socketProps={socketProps} player={player} /> : gameStatus === "starting" ?
-        (<CountDownPlayer player={player} socketProps={socketProps} />) : <Game code={code} qcm={qcm} chrono={chrono} socketProps={socketProps} team={player.team.id}/>
+        (<CountDownPlayer player={player} socketProps={socketProps} />) :  gameStatus === 'running' ?<Game code={code} qcm={qcm} chrono={chrono} socketProps={socketProps} team={player.team.id}/> : <Results results={results!} />
     ) : code ? <FormPseudo socketProps={socketProps} code={code} /> : (
         <div className='NoCode'>
             <Parallax running={false} />

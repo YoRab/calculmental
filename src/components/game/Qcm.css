@@ -40,6 +40,9 @@
     scale: 0;
     transition: scale 400ms 100ms;
 }
+.Qcm button:hover{
+  background-color: #1199eef2 !important;
+}
 
 .Qcm button:active, 
 .Qcm button:focus {

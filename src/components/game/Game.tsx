@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useReducer, useRef, useState } from 'react'
 import { BOMB_MOVING_DURATION, BULLET_MOVING_DURATION, EXPLOSION_DURATION } from '../../constants'
 import { SocketPropsType } from '../../hooks/useSocket'
 import { BombType } from './Bomb'
@@ -31,6 +31,7 @@ const Game = ({ code, qcm, chrono, socketProps, team }: GameType) => {
     const [score, setScore] = useState(0)
     const [bombData, setBombData] = useState<{ bomb: BombType; calcul: string } | undefined>(undefined)
     const [answers, setAnswers] = useState<AnswerType[]>([])
+    const qcmIndex = useRef(0)
 
     const shoot = () => {
         setPlayerState('shooting')
@@ -40,7 +41,8 @@ const Game = ({ code, qcm, chrono, socketProps, team }: GameType) => {
             setPlayerState('idle')
             setTimeout(() => {
                 setBombData(undefined)
-                socketProps.sendMessage("askForQcm", 0)
+                socketProps.sendMessage("askForQcm", qcmIndex.current)
+                qcmIndex.current++;
             }, EXPLOSION_DURATION)
         }, BULLET_MOVING_DURATION)
     }
@@ -52,7 +54,8 @@ const Game = ({ code, qcm, chrono, socketProps, team }: GameType) => {
             setTimeout(() => {
                 setBombData(undefined)
                 if (playerLife > 0)
-                    socketProps.sendMessage("askForQcm", 0)
+                    socketProps.sendMessage("askForQcm",  qcmIndex.current)
+                    qcmIndex.current++;
             }, EXPLOSION_DURATION)
         }, BOMB_MOVING_DURATION)
     }
@@ -67,7 +70,8 @@ const Game = ({ code, qcm, chrono, socketProps, team }: GameType) => {
 
     useEffect(() => {
         if (qcm === undefined) {
-            socketProps.sendMessage("askForQcm", 0)
+            socketProps.sendMessage("askForQcm",  qcmIndex.current)
+            qcmIndex.current++;
             return
         }
         setBombData({ calcul: qcm.question, bomb: 'resting' })
@@ -90,15 +94,11 @@ const Game = ({ code, qcm, chrono, socketProps, team }: GameType) => {
             <Infos score={score} playerLife={playerLife} chrono={chrono} />
             <Shooter playerState={playerState} playerLife={playerLife} bomb={bombData?.bomb} calcul={bombData?.calcul} team={team} />
             <Qcm answers={answers} onAnswered={onAnswered} />
-            {playerLife === 0 && (
+            {playerLife ===0 && (
                 <div className='ModalLost'>
-                    <div>Tu y étais presque !</div>
-                    <div>Score personnel : {score}pts</div>
-                    <div>Les résultats finaux arrivent à la fin du décompte</div>
-                    <div>
-                        <h3>Astuce !</h3>
-                        <p>bla bla bla</p>
-                    </div>
+                    <div>Dommage, tu y étais presque !</div>
+                    <div>Score personnel : <strong>{score}pts</strong></div>
+                    <div><br/>Encore un peu de patience, les résultats finaux arrivent à la fin du décompte</div>
                 </div>
             )}
         </div>

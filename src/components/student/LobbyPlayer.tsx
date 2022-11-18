@@ -13,19 +13,17 @@ type LobbyPlayerType = {
 const LobbyPlayer = ({ socketProps, player }: LobbyPlayerType) => {
 
     return <div className='LobbyPlayer' style={{
-        '--fly2': `url(${player.team.id===0 ? fly2 : redfly})`,
+        '--fly2': `url(${player.team.id===0 ? fly2 : redfly})`, '--team-color': `${player.team.id===0 ? '#014b26'  :  '#5a1e26'}`
       } as React.CSSProperties}>
         <Parallax running={false} />
         <div className='LobbyPlayerContent'>
             <div>Félicitations {player.pseudo}, tu fais maintenant partie de l'escadrille
-                <div>{player.team.label}</div>
+                <div className='LobbyTeamEmphase'>{player.team.label}</div>
             </div>
             <div>
                   <div className='PlayerContainer'>
                     <div className={`Player idle`} />
                   </div>
-                  <div>{player.pseudo}</div>
-
                 </div>
         </div>
     </div>

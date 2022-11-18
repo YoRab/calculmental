@@ -17,8 +17,7 @@ type WaitingRoomType = {
   teamScore: [number, number]
 }
 
-const TEAMS = [{ id: 0, className: 'Team1', fly: fly2, color: 'green' }, { id: 1, className: 'Team2', fly: redfly, color: 'red' }]
-
+const TEAMS = [{ id: 0, className: 'Team1', fly: fly2, color: '#014b26' }, { id: 1, className: 'Team2', fly: redfly, color: '#5a1e26' }]
 
 const Heart = (props: any) => {
   return (<svg {...props} viewBox="0 0 32 29.6">
@@ -34,6 +33,7 @@ const WaitingRoom = ({ socketProps, code, players, gameStatus, chrono, teamScore
   }
 
   const totalScore = (teamScore[0] + teamScore[1]) || 1
+  console.log(code)
 
   return (
     <div className="WaitingRoom" >
@@ -57,7 +57,7 @@ const WaitingRoom = ({ socketProps, code, players, gameStatus, chrono, teamScore
                 </div>
                 <div className="TeamPlayers">
                   {players.filter(player => player.team.id === team.id).map(player => (
-                    <div key={player.id}>
+                    <div key={player.id} style={{ width: '80px', minWidth: '80px'}}>
                       <div className='TeamPlayerScore'>{player.score}pts</div>
                       <div className='TeamPlayerHearts'>
                         <Heart className={player.heart > 0 ? 'heart_full' : 'heart_empty'} />
@@ -67,7 +67,7 @@ const WaitingRoom = ({ socketProps, code, players, gameStatus, chrono, teamScore
                       <div className={`PlayerContainer ${player.heart === 0 ? 'greyed' : ''}`}>
                         <div className={`Player idle`} />
                       </div>
-                      <div>{player.pseudo}</div>
+                      <div className='TeamPlayerPseudo'>{player.pseudo}</div>
 
                     </div>
                   ))}
@@ -77,21 +77,41 @@ const WaitingRoom = ({ socketProps, code, players, gameStatus, chrono, teamScore
             })}
           </div>
         </div>
-        {(gameStatus === 'ready' || gameStatus === 'starting') && (
+        {(gameStatus === 'ready' || gameStatus === 'starting') ? (
           <div className='Qrcode'>
             <div className='BoxCode'>
-              <div>{code}</div>
+              <h2>Scannez le QrCode pour rejoindre la session</h2>
               <QRCode
                 size={256}
                 style={{ height: "auto", minWidth: "min(100%,240px)", width: "80%" }}
-                value={`http://172.16.20.30:5173?code=${code}`}
+                value={`http://192.168.1.80:5173?code=${code}`}
                 viewBox={`0 0 256 256`}
               />
             </div>
             <div className='BoxStart'>
-              <button disabled={gameStatus !== "ready"} onClick={startGame}>{gameStatus === "ready" ? "start" : "Préparation..."}</button>
+              <button disabled={gameStatus !== "ready"} onClick={startGame}>{gameStatus === "ready" ? "Démarrer la session" : "Préparation..."}</button>
             </div>
-          </div>)}
+          </div>) : (
+
+          <div className='Ranking'>
+            <h2>Classement personnel</h2>
+            <div className='RankingPlayers'>
+            {players.sort((a,b) => b.score - a.score).map((player, i) => (
+              <div className="RankingPlayer" key={player.id} style={{
+                '--fly2': `url(${player.team.id===0 ? fly2 : redfly})`
+              } as React.CSSProperties}>
+                <div className="RankingPlayerRank">{i+1}.</div>
+                <div className={`PlayerContainer RankingPlayerContainer`}>
+                        <div className={`Player idle`} />
+                      </div>
+                <div className="RankingPlayerPseudo">{player.pseudo}</div>
+                <div className="RankingPlayerScore">{player.score}pts</div>
+                </div>
+            ))}
+            </div>
+          </div>
+
+        )}
       </div >
     </div>
   )
