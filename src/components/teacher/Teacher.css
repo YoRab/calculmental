@@ -20,6 +20,7 @@ button {
     padding:12px;
     cursor: pointer;
     background:rgb(226, 226, 226);
+    color:black;
 }
 
 button:not(:disabled):hover {

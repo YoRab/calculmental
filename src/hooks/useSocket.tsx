@@ -1,35 +1,26 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { io, Socket } from "socket.io-client";
+import { io } from "socket.io-client";
+import { CustomSocket } from "../types/types";
 
 const HOST = ":4001";
 
-export type SocketPropsType = {
-  isConnected: boolean, addListener: (event: string, cb: any) => void, removeListener: (event: string) => void,
-  sendMessage: (message: string, ...props: any) => void
-}
+export type SocketPropsType = ReturnType<typeof useSocket>
 
-export const useSocket = (): SocketPropsType => {
-  const socketRef = useRef<Socket | null>(null);
+export const useSocket = () => {
+  const socketRef = useRef<CustomSocket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
 
-  const sendMessage = (message: string, ...props: any) => {
-    if (socketRef.current === null || !isConnected) return;
-    socketRef.current.emit(message, ...props)
-  }
+  const sendMessage = !isConnected || !socketRef.current ? () => {} :  socketRef.current.emit;
 
-  const addListener = (event: string, cb: () => void) => {
-    if (socketRef.current === null || !isConnected) return;
-    socketRef.current.on(event, cb);
-  }
+  const addListener = !isConnected || !socketRef.current ? () => {} : socketRef.current.on;
 
-  const removeListener = (event: string) => {
-    if (socketRef.current === null || !isConnected) return;
-    socketRef.current.off(event);
-  }
+  const removeListener = !isConnected || !socketRef.current ? () => {} : socketRef.current.off;
 
   useEffect(() => {
-    const socket: Socket<{}, {}> = io(HOST);
+    const socket: CustomSocket = io(HOST);
+
     socketRef.current = socket;
+
     socket.on("connect", () => {
       console.log("connected");
       setIsConnected(true);

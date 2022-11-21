@@ -4,6 +4,7 @@ import './App.css'
 import Student from './student/Student';
 import Teacher from './teacher/Teacher';
 
+
 const App = () => {
 
   const pathname = window.location.pathname

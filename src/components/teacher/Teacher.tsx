@@ -20,13 +20,13 @@ const Teacher = ({ socketProps }: TeacherType) => {
   useEffect(() => {
     const { isConnected, addListener, removeListener, sendMessage } = socketProps
 
-    addListener("gameCreated", (code: string) => {
+    addListener("gameCreated", (code) => {
       setCode(code)
       setPlayers([])
       setTeamScore([0, 0])
     })
 
-    addListener("gameDestroyed", (code: string) => {
+    addListener("gameDestroyed", () => {
       setCode(undefined)
       setPlayers([])
       setTeamScore([0, 0])
@@ -41,7 +41,7 @@ const Teacher = ({ socketProps }: TeacherType) => {
       if (chrono) setChrono(chrono)
     })
 
-    addListener("teamScoreUpdated", (team0: number, team1: number) => {
+    addListener("teamScoreUpdated", (team0, team1) => {
       setTeamScore([team0, team1])
 
     })
