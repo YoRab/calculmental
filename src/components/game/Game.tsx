@@ -85,8 +85,6 @@ const Game = ({ code, qcm, chrono, socketProps, team }: GameType) => {
     }, [playerLife])
 
     useEffect(() => {
-        if(code!==null)
-        //@ts-ignore : types are not forwarded correctly from socket.io :/
         socketProps.sendMessage("updatePlayerStatus", code, playerLife, score)
     }, [score, playerLife, code])
 

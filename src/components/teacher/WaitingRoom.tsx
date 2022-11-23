@@ -84,7 +84,7 @@ const WaitingRoom = ({ socketProps, code, players, gameStatus, chrono, teamScore
               <QRCode
                 size={256}
                 style={{ height: "auto", minWidth: "min(100%,240px)", width: "80%" }}
-                value={`http://yohannrabatel.ddns.net:5173?code=${code}`}
+                value={`http://192.168.1.80:5173?code=${code}`}
                 viewBox={`0 0 256 256`}
               />
             </div>

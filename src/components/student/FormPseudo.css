@@ -51,7 +51,6 @@ color:black;
     cursor: pointer;
     background:rgb(226, 226, 226);
     margin: auto;
-    color:black;
 }
 
 .FormPseudo input[type='submit']:hover {
